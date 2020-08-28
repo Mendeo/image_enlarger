@@ -45,11 +45,11 @@
 			let defaultStyle = `width: ${img.width}px; height: ${img.height}px`; //Устанавливаем фактические размеры маленькой картинки.
 			img.style = defaultStyle; //Чтобы анимация работала при первом клике, нужно явно задать ширину и высоту для загруженной маленькой картинки.
 			let isGoingToSmall = false;
-			function bigImageLoading()
+			function bigImageLoaded()
 			{
 				img.bigSrcStatus = 'loaded';
 				imgCache.delete(img.getAttribute('src-big'));
-				img.removeEventListener('load', bigImageLoading);
+				img.removeEventListener('load', bigImageLoaded);
 			}
 			img.addEventListener('click', () => 
 			{
@@ -58,9 +58,11 @@
 					if (img.bigSrcStatus === 'loading') //Если картинка не загрузилась, то мы ставим старое маленькое изображение в источник.
 					{
 						img.bigSrcStatus = 'needReload';
-						if (!navigator.userAgent.includes('Firefox')) //В Firefox менять источник не нужно, т.к. он не кэширует недозагруженные изображения и одновременно не показывает background у них.
+						//В Хроме мы пока большая картинка не загрузилась, то отображается background. Поэтому если мы уменьшаем картинку, нужно вернуть источник на маленьккую картинку.
+						//В Firefox менять источник не нужно, т.к. он не кэширует недозагруженные изображения и одновременно не показывает background у них.
+						if (!navigator.userAgent.includes('Firefox'))
 						{
-							img.removeEventListener('load', bigImageLoading);
+							img.removeEventListener('load', bigImageLoaded);
 							img.src = img.smallSrc;
 							//Для всех браузеров, кроме Firefox, продолжаем загрузку картинки в фоне (когда она маленькая). Если пользователь кликает по разным изображениям, то все эти изображения будут кэшироваться в Map'е imgCache.
 							let key = img.getAttribute('src-big');
