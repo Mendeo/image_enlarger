@@ -11,14 +11,15 @@
 	body.appendChild(imgBg);
 	//Левая и правая стрелки для листания картинок.
 	const imgLeftArrow = document.createElement('div');
-	imgLeftArrow.className = 'image-enlager-arrow';
+	imgLeftArrow.classList.add('image-enlager-arrow');
+	imgLeftArrow.classList.add('image-enlager-left-arrow');
 	imgLeftArrow.style = 'left: 0px;';
 	body.appendChild(imgLeftArrow);
 	const imgRightArrow = document.createElement('div');
-	imgRightArrow.className = 'image-enlager-arrow';
+	imgRightArrow.classList.add('image-enlager-arrow');
+	imgRightArrow.classList.add('image-enlager-right-arrow');
 	imgRightArrow.style = 'right: 0px;';
 	body.appendChild(imgRightArrow);
-	
 	
 	const imgSatellites = [imgBg, imgLeftArrow, imgRightArrow]; //Записываем все элементы, которые нужны для увеличенного изображения в один массив, чтобы не вызывать одни и теже действия над каждый отдельным элементом.
 	imgSatellites.forEach(s => s.hidden = true);
@@ -88,7 +89,12 @@
 					isGoingToSmall = false;
 					//Убираем заглушку.
 					placeholder.hidden = true;
-					if (isArrowClicked) doImageBig(); //Если изображение было уменьшено по нажатию на стрелочку, то увеличиваем новое изображение.
+					//Если изображение было уменьшено по нажатию на стрелочку, то увеличиваем новое изображение.
+					if (isArrowClicked)
+					{
+						doImageBig();
+						isArrowClicked = false;
+					}
 				}
 			});
 		}
@@ -123,7 +129,8 @@
 		//Но position остаётся fixed, т.к. нужно, чтобы при анимации уменьшения не смещались остальные элементы страницы.
 		currentBigImg.style = `${currentBigImg.defaultStyle}; position: fixed; left: ${coords.left}px; top: ${coords.top}px`;
 		currentBigImg.isBig = false;
-		imgSatellites.forEach(s => s.hidden = true);
+		//Убираем фон и стрелки листатели, только если нажали на саму картинку, а не на перелистывание.
+		if (!isArrowClicked) imgSatellites.forEach(s => s.hidden = true);
 		//Указываем, что мы собираемся уменьшить картинку.
 		//Эта переменная опять станет false, когда завершится анимация уменьшения.
 		isGoingToSmall = true;
@@ -177,7 +184,7 @@
 		}
 		let left = Math.round(0.5 * (screenWidth - bigImgWidth));
 		let top = Math.round(0.5 * (screenHeight - bigImgHeight));
-		currentBigImg.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2`;
+		currentBigImg.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2;`;
 	}
 	
 	//Обрабатываем клики на стрелочки - листалки.
@@ -186,6 +193,7 @@
 		if (currentBigImg.index > 0)
 		{
 			isArrowClicked = true;
+			let style = currentBigImg.style;
 			doImageSmall(); //Увеличивать новое изображение будем после уменьшения старого.
 			currentBigImg = imgs[currentBigImg.index - 1];
 		}

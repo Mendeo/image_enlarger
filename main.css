@@ -8,11 +8,28 @@ img[src-big]
 
 .image-enlager-arrow
 {
-	background-color: rgba(255, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0);
 	position: fixed;
 	top: 0px;
 	width: 30%;
 	z-index: 3;
+}
+
+.image-enlager-arrow:hover
+{
+	cursor: pointer;
+}
+
+.image-enlager-left-arrow:hover
+{
+	background: url('images/left-arrow.svg') no-repeat left;
+	background-color: rgba(48, 48, 48, 0.2);
+}
+
+.image-enlager-right-arrow:hover
+{
+	background: url('images/right-arrow.svg') no-repeat right;
+	background-color: rgba(48, 48, 48, 0.2);
 }
 
 .image-enlager-background
