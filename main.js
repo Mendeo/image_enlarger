@@ -71,6 +71,7 @@
 			img.addEventListener('click', () => 
 			{
 				currentBigImg = img;
+				img.className = 'image-enlager-animation-normal';
 				if (img.isBig) //Картинка большая - уменьшаем
 				{
 					doImageSmall();
@@ -92,8 +93,9 @@
 					//Если изображение было уменьшено по нажатию на стрелочку, то увеличиваем новое изображение.
 					if (isArrowClicked)
 					{
-						doImageBig();
 						isArrowClicked = false;
+						currentBigImg.className = 'image-enlager-animation-fast';
+						doImageBig();
 					}
 				}
 			});
@@ -193,7 +195,7 @@
 		if (currentBigImg.index > 0)
 		{
 			isArrowClicked = true;
-			let style = currentBigImg.style;
+			currentBigImg.className = 'image-enlager-animation-fast';
 			doImageSmall(); //Увеличивать новое изображение будем после уменьшения старого.
 			currentBigImg = imgs[currentBigImg.index - 1];
 		}
