@@ -205,6 +205,7 @@
 		if (currentBigImg.index < imgs.length - 1)
 		{
 			isArrowClicked = true;
+			currentBigImg.className = 'image-enlager-animation-fast';
 			doImageSmall(); //Увеличивать новое изображение будем после уменьшения старого.
 			currentBigImg = imgs[currentBigImg.index + 1];
 		}
