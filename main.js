@@ -7,15 +7,18 @@
 	//Он будет перекрывать все элементы экрана.
 	const body = document.getElementsByTagName('body')[0];
 	const imgBg = document.createElement('div');
-	imgBg.style = 'background-color: rgba(48, 48, 48, 0.6); position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1';
+	imgBg.className = 'image-enlager-background';
 	body.appendChild(imgBg);
 	//Левая и правая стрелки для листания картинок.
 	const imgLeftArrow = document.createElement('div');
-	imgLeftArrow.style = `background-color: rgb(255, 0, 0); position: fixed; top: 0px; left: 0px; width: 30%; z-index: 3;`;
+	imgLeftArrow.className = 'image-enlager-arrow';
+	imgLeftArrow.style = 'left: 0px;';
 	body.appendChild(imgLeftArrow);
 	const imgRightArrow = document.createElement('div');
-	imgRightArrow.style = `background-color: rgb(255, 0, 0); position: fixed; top: 0px; right: 0px; width: 30%; z-index: 3;`;
+	imgRightArrow.className = 'image-enlager-arrow';
+	imgRightArrow.style = 'right: 0px;';
 	body.appendChild(imgRightArrow);
+	
 	
 	const imgSatellites = [imgBg, imgLeftArrow, imgRightArrow]; //Записываем все элементы, которые нужны для увеличенного изображения в один массив, чтобы не вызывать одни и теже действия над каждый отдельным элементом.
 	imgSatellites.forEach(s => s.hidden = true);
@@ -41,6 +44,7 @@
 	}
 	//Заглушка для картинки. Появляется вместо неё на том месте откуда она увеличилась.
 	let placeholder = document.createElement('img');
+	placeholder.className = 'image-enlager-placeholder';
 	let imgCache = new Map();
 	const imgs = document.querySelectorAll('img[src-big]');
 	let isGoingToSmall = false; //Переменная для отслеживания анимации уменьшения.
@@ -139,7 +143,7 @@
 		currentBigImg.isBig = true;
 		//Перед тем как увеличить картинку вставляем вместо неё заглушку.
 		placeholder.hidden = false;
-		placeholder.style = `width: ${currentBigImg.width}px; height: ${currentBigImg.height}px; background-color: rgb(200, 200, 200)`;
+		placeholder.style = `width: ${currentBigImg.width}px; height: ${currentBigImg.height}px;`;
 		currentBigImg.before(placeholder);
 		makeImageBig();
 		window.addEventListener('resize', makeImageBig);

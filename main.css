@@ -5,3 +5,27 @@ img[src-big]
 	transition-duration: 0.3s;
 	background: url('images/load.png') no-repeat center;
 }
+
+.image-enlager-arrow
+{
+	background-color: rgba(255, 0, 0, 0.6);
+	position: fixed;
+	top: 0px;
+	width: 30%;
+	z-index: 3;
+}
+
+.image-enlager-background
+{
+	background-color: rgba(48, 48, 48, 0.6);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 1;
+}
+
+.image-enlager-placeholder
+{
+	background-color: rgb(200, 200, 200);
+}
