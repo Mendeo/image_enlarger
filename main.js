@@ -1,18 +1,31 @@
 (function()
 {
 	'use strict';
+	let currentBigImg;
 	//Создаём полупрозрачный серый фон на заднем плане под увеличенным изображением.
 	//Он будет перекрывать все элементы экрана.
+	const body = document.getElementsByTagName('body')[0];
 	const imgBg = document.createElement('div');
-	document.getElementsByTagName('body')[0].appendChild(imgBg);
 	imgBg.style = 'background-color: rgba(48, 48, 48, 0.6); position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1';
-	imgBg.hidden = true;
+	body.appendChild(imgBg);
+	//Левая и правая стрелки для листания картинок.
+	const imgLeftArrow = document.createElement('div');
+	imgLeftArrow.style = `background-color: rgb(255, 0, 0); position: fixed; top: 0px; left: 0px; width: 30%; z-index: 3;`;
+	body.appendChild(imgLeftArrow);
+	const imgRightArrow = document.createElement('div');
+	imgRightArrow.style = `background-color: rgb(255, 0, 0); position: fixed; top: 0px; right: 0px; width: 30%; z-index: 3;`;
+	body.appendChild(imgRightArrow);
+	
+	const imgSatellites = [imgBg, imgLeftArrow, imgRightArrow]; //Записываем все элементы, которые нужны для увеличенного изображения в один массив, чтобы не вызывать одни и теже действия над каждый отдельным элементом.
+	imgSatellites.forEach(s => s.hidden = true);
+	
 	fillBg(); //Функция, которая растягивает серый фон по высоте на весь экран.
 	//Перерисовываем высоту серого фона при изменении размеров окна браузера.
 	window.addEventListener('resize', fillBg);
 	function fillBg()
 	{
-		imgBg.style.height = (document.documentElement.clientHeight + 100) + 'px';
+		let height = (document.documentElement.clientHeight + 100) + 'px';
+		imgSatellites.forEach(s => s.style.height = height);
 	}
 	
 	//Определяем долю от размера экрана, которую будет занимать увеличенное изображение
@@ -53,8 +66,10 @@
 			}
 			img.addEventListener('click', () => 
 			{
+				currentBigImg = img;
 				if (img.isBig) //Картинка большая - уменьшаем
 				{
+					window.removeEventListener('resize', doImageBig);
 					if (img.bigSrcStatus === 'loading') //Если картинка не загрузилась, то мы ставим старое маленькое изображение в источник.
 					{
 						img.bigSrcStatus = 'needReload';
@@ -80,26 +95,27 @@
 					//Но position остаётся fixed, т.к. нужно, чтобы при анимации уменьшения не смещались остальные элементы страницы.
 					img.style = `${defaultStyle}; position: fixed; left: ${coords.left}px; top: ${coords.top}px`;
 					img.isBig = false;
-					imgBg.hidden = true;
+					imgSatellites.forEach(s => s.hidden = true);
 					//Указываем, что мы собираемся уменьшить картинку.
 					//Эта переменная опять станет false, когда завершится анимация уменьшения.
 					isGoingToSmall = true;
 				}
 				else //Картинка маленькая - увеличиваем.
 				{
-					imgBg.hidden = false;
+					imgSatellites.forEach(s => s.hidden = false);
 					img.isBig = true;
 					//Перед тем как увеличить картинку вставляем вместо неё заглушку.
 					placeholder.hidden = false;
 					placeholder.style = `width: ${img.width}px; height: ${img.height}px; background-color: rgb(200, 200, 200)`;
 					img.before(placeholder);
-					doImageBig(img);
+					doImageBig();
+					window.addEventListener('resize', doImageBig);
 					if (img.bigSrcStatus !== 'loaded') //Проверяем, загружена ли уже полноразмерная картинка.
 					{
 						//В Firefox не нужно менять источник снова, если он уже был раньше изменён на большую картинку, иначе Firefox начнёт перезагружать картинку.
 						if (!(navigator.userAgent.includes('Firefox') && img.bigSrcStatus === 'needReload')) img.src = img.getAttribute('src-big'); //Загружаем большое изображение.
 						img.bigSrcStatus = 'loading';
-						img.addEventListener('load', bigImageLoading);
+						img.addEventListener('load', bigImageLoaded);
 					}
 				}
 			});
@@ -124,12 +140,12 @@
 	
 	//Эта функция расчитывает размеры увеличенного изображения и центрирует его.
 	//Принимает параметр размера маленького изображения (ширина и высота), что вычислить соотношение сторон.
-	function doImageBig(img)
+	function doImageBig()
 	{
 		let screenHeight = document.documentElement.clientHeight;
 		let screenWidth = document.documentElement.clientWidth;
-		let imgWidth = img.width;
-		let imgHeight = img.height;
+		let imgWidth = currentBigImg.width;
+		let imgHeight = currentBigImg.height;
 		let bigImgHeight = Math.round(screenHeight * bigImgageScreenFraction);
 		let bigImgWidth = Math.round(screenWidth * bigImgageScreenFraction);
 		let ratio = imgWidth / imgHeight
@@ -144,6 +160,6 @@
 		}
 		let left = Math.round(0.5 * (screenWidth - bigImgWidth));
 		let top = Math.round(0.5 * (screenHeight - bigImgHeight));
-		img.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2`;
+		currentBigImg.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2`;
 	}
 })();
