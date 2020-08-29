@@ -55,3 +55,21 @@ img[src-big]
 {
 	background-color: rgb(200, 200, 200);
 }
+
+@media screen and (max-width: 1080px)
+{
+	.image-enlager-left-arrow:hover
+	{
+		background: none
+	}
+
+	.image-enlager-right-arrow:hover
+	{
+		background: none
+	}
+	
+	.image-enlager-arrow
+	{
+		width: 20%;
+	}
+}
