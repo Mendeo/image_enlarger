@@ -32,14 +32,19 @@ img[src-big]
 .image-enlager-left-arrow:hover
 {
 	background: url('images/left-arrow.svg') no-repeat left;
-	background-color: rgba(48, 48, 48, 0.0);
 }
 
 .image-enlager-right-arrow:hover
 {
 	background: url('images/right-arrow.svg') no-repeat right;
-	background-color: rgba(48, 48, 48, 0.0);
 }
+
+.image-enlager-no-arrows:hover
+{
+	cursor: default;
+	background: none;
+}
+
 
 .image-enlager-background
 {
