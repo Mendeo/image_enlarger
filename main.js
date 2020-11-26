@@ -1,3 +1,4 @@
+//Мой скрипт для увеличения картинок (у img должен быть атрибут src-big с путём к большому изображению)
 (function()
 {
 	'use strict';
@@ -39,7 +40,7 @@
 	window.addEventListener('resize', setImageScreenFraction);
 	function setImageScreenFraction()
 	{
-		if (window.matchMedia('(max-width: 1080px)').matches) //Зашли с мобильного.
+		if (window.matchMedia('(max-width: 768px)').matches) //Зашли с мобильного.
 		{
 			bigImgageScreenFraction = 1.0;
 		}
@@ -159,6 +160,7 @@
 		//Указываем, что мы собираемся уменьшить картинку.
 		//Эта переменная опять станет false, когда завершится анимация уменьшения.
 		isGoingToSmall = true;
+		document.getElementsByTagName('body')[0].style = 'overflow: auto;';
 	}
 	
 	function bigImageLoaded(e)
@@ -177,6 +179,7 @@
 		placeholder.hidden = false;
 		placeholder.style = `width: ${currentBigImg.width}px; height: ${currentBigImg.height}px;`;
 		currentBigImg.before(placeholder);
+		document.getElementsByTagName('body')[0].style = 'overflow: hidden;';
 		makeImageBig();
 		window.addEventListener('resize', makeImageBig);
 		if (currentBigImg.bigSrcStatus !== 'loaded') //Проверяем, загружена ли уже полноразмерная картинка.
