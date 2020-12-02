@@ -200,7 +200,7 @@
 		let imgHeight = currentBigImg.height;
 		let bigImgHeight = Math.round(screenHeight * bigImgageScreenFraction);
 		let bigImgWidth = Math.round(screenWidth * bigImgageScreenFraction);
-		let ratio = imgWidth / imgHeight
+		let ratio = imgWidth / imgHeight;
 		let newWidth = Math.round(bigImgHeight * ratio);
 		if (newWidth < bigImgWidth)
 		{
