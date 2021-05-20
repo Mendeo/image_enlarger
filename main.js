@@ -69,7 +69,7 @@
 		{
 			img.addEventListener('load', onFirstLoad);
 		}
-		function onFirstLoad()
+		const onFirstLoad = function()
 		{
 			img.removeEventListener('load', onFirstLoad);
 			img.defaultStyle = `width: ${img.width}px; height: ${img.height}px`; //Устанавливаем фактические размеры маленькой картинки.
@@ -144,7 +144,7 @@
 				if (!imgCache.has(key))
 				{
 					let auxImg = document.createElement('img');
-					auxImg.src = key
+					auxImg.src = key;
 					imgCache.set(key, auxImg);
 				}
 			}
@@ -200,7 +200,7 @@
 		let imgHeight = currentBigImg.height;
 		let bigImgHeight = Math.round(screenHeight * bigImgageScreenFraction);
 		let bigImgWidth = Math.round(screenWidth * bigImgageScreenFraction);
-		let ratio = imgWidth / imgHeight
+		let ratio = imgWidth / imgHeight;
 		let newWidth = Math.round(bigImgHeight * ratio);
 		if (newWidth < bigImgWidth)
 		{
