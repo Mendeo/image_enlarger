@@ -21,10 +21,10 @@
 	imgRightArrow.classList.add('image-enlager-right-arrow');
 	imgRightArrow.style = 'right: 0px;';
 	body.appendChild(imgRightArrow);
-	
+
 	const imgSatellites = [imgBg, imgLeftArrow, imgRightArrow]; //Записываем все элементы, которые нужны для увеличенного изображения в один массив, чтобы не вызывать одни и теже действия над каждый отдельным элементом.
 	imgSatellites.forEach(s => s.hidden = true);
-	
+
 	fillBg(); //Функция, которая растягивает серый фон по высоте на весь экран.
 	//Перерисовываем высоту серого фона при изменении размеров окна браузера.
 	window.addEventListener('resize', fillBg);
@@ -33,7 +33,7 @@
 		let height = (document.documentElement.clientHeight) + 'px';
 		imgSatellites.forEach(s => s.style.height = height);
 	}
-	
+
 	//Определяем долю от размера экрана, которую будет занимать увеличенное изображение
 	let bigImgageScreenFraction;
 	setImageScreenFraction();
@@ -60,7 +60,7 @@
 		let img = imgs[i];
 		img.smallSrc = img.src;
 		img.index = i;
-		
+
 		if (img.complete)
 		{
 			onFirstLoad();
@@ -74,7 +74,7 @@
 			img.removeEventListener('load', onFirstLoad);
 			img.defaultStyle = `width: ${img.width}px; height: ${img.height}px`; //Устанавливаем фактические размеры маленькой картинки.
 			img.style = img.defaultStyle; //Чтобы анимация работала при первом клике, нужно явно задать ширину и высоту для загруженной маленькой картинки.
-			img.addEventListener('click', () => 
+			img.addEventListener('click', () =>
 			{
 				currentBigImg = img;
 				img.className = 'image-enlager-animation-normal';
@@ -123,9 +123,9 @@
 					}
 				}
 			});
-		}
+		};
 	}
-	
+
 	//Эта функция уменьшает увеличенное изображение.
 	function doImageSmall()
 	{
@@ -162,7 +162,7 @@
 		isGoingToSmall = true;
 		//document.getElementsByTagName('body')[0].style = 'overflow: auto;';
 	}
-	
+
 	function bigImageLoaded(e)
 	{
 		let img = e.target;
@@ -190,7 +190,7 @@
 			currentBigImg.addEventListener('load', bigImageLoaded);
 		}
 	}
-	
+
 	//Эта функция вычисляет размеры и положение большого изображения и применяет вычисленные стили.
 	function makeImageBig()
 	{
@@ -214,7 +214,7 @@
 		let top = Math.round(0.5 * (screenHeight - bigImgHeight));
 		currentBigImg.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2;`;
 	}
-	
+
 	//Обрабатываем клики на стрелочки - листалки.
 	imgLeftArrow.addEventListener('click', () =>
 	{
@@ -224,7 +224,7 @@
 			currentBigImg.className = 'image-enlager-animation-fast';
 			doImageSmall(); //Увеличивать новое изображение будем после уменьшения старого.
 			currentBigImg = imgs[currentBigImg.index - 1];
-			
+
 			//Долистали до первого изображения - убираем левую стрелку.
 			if (currentBigImg.index === 0) hideLeftArrow();
 			//Перелистнули с последнего изображения влево - возвращаем правую стрелку.
@@ -246,7 +246,7 @@
 			if (currentBigImg.index === 1) showLeftArrow();
 		}
 	});
-	
+
 	function showLeftArrow()
 	{
 		imgLeftArrow.classList.remove('image-enlager-no-arrows');
