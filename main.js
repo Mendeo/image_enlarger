@@ -61,14 +61,6 @@
 		img.smallSrc = img.src;
 		img.index = i;
 
-		if (img.complete)
-		{
-			onFirstLoad();
-		}
-		else
-		{
-			img.addEventListener('load', onFirstLoad);
-		}
 		const onFirstLoad = function()
 		{
 			img.removeEventListener('load', onFirstLoad);
@@ -124,6 +116,14 @@
 				}
 			});
 		};
+		if (img.complete)
+		{
+			onFirstLoad();
+		}
+		else
+		{
+			img.addEventListener('load', onFirstLoad);
+		}
 	}
 
 	//Эта функция уменьшает увеличенное изображение.
