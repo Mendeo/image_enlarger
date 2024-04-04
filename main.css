@@ -1,4 +1,4 @@
-img[src-big]
+img[data-src-big]
 {
 	cursor: pointer;
 	transition-property: width, height, left, top;
