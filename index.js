@@ -69,7 +69,7 @@ SOFTWARE.
 		}
 		else //Зашли с компьютера.
 		{
-			bigImgageScreenFraction = 0.9;
+			bigImgageScreenFraction = 0.95;
 		}
 	}
 	//Заглушка для картинки. Появляется вместо неё на том месте откуда она увеличилась.
