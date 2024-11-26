@@ -63,13 +63,13 @@ SOFTWARE.
 	window.addEventListener('resize', setImageScreenFraction);
 	function setImageScreenFraction()
 	{
-		if (window.matchMedia('(max-width: 768px)').matches) //Зашли с мобильного.
+		if (window.matchMedia('(max-width: 1024px)').matches) //Зашли с мобильного.
 		{
 			bigImgageScreenFraction = 1.0;
 		}
 		else //Зашли с компьютера.
 		{
-			bigImgageScreenFraction = 0.7;
+			bigImgageScreenFraction = 0.9;
 		}
 	}
 	//Заглушка для картинки. Появляется вместо неё на том месте откуда она увеличилась.
@@ -97,27 +97,15 @@ SOFTWARE.
 				{
 					doImageSmall();
 					//Восстанавливаем стрелки перелистывания, если картинка уменьшилась.
-					if (img.index === 0)
-					{
-						showLeftArrow();
-					}
-					else if (img.index === imgs.length - 1)
-					{
-						showRightArrow();
-					}
+					if (img.index === 0) showLeftArrow();
+					if (img.index === imgs.length - 1) showRightArrow();
 				}
 				else //Картинка маленькая - увеличиваем.
 				{
 					doImageBig();
 					//Убираем соответствующие стрелки перелистывания, если кликнули по первой или последней картинке.
-					if (img.index === 0)
-					{
-						hideLeftArrow();
-					}
-					else if (img.index === imgs.length - 1)
-					{
-						hideRightArrow();
-					}
+					if (img.index === 0) hideLeftArrow();
+					if (img.index === imgs.length - 1) hideRightArrow();
 				}
 			});
 			img.addEventListener('transitionend', () =>
