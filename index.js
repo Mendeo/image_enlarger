@@ -21,10 +21,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+window.addEventListener('on-img-going-to-big', () =>
+{
+	console.log('Картинка начала увеличиваться');
+});
+window.addEventListener('on-img-going-to-small', () =>
+{
+	console.log('Картинка начала уменьшаться');
+});
 (function()
 {
 	'use strict';
+	const onImageBigEvent = new Event('on-img-going-to-big');
+	const onImageSmallEvent = new Event('on-img-going-to-small');
 	let currentBigImg;
 	let isArrowClicked = false;
 	//Создаём полупрозрачный серый фон на заднем плане под увеличенным изображением.
@@ -172,6 +181,7 @@ SOFTWARE.
 		//Эта переменная опять станет false, когда завершится анимация уменьшения.
 		isGoingToSmall = true;
 		//document.getElementsByTagName('body')[0].style = 'overflow: auto;';
+		window.dispatchEvent(onImageSmallEvent);
 	}
 
 	function bigImageLoaded(e)
@@ -224,6 +234,7 @@ SOFTWARE.
 		let left = Math.round(0.5 * (screenWidth - bigImgWidth));
 		let top = Math.round(0.5 * (screenHeight - bigImgHeight));
 		currentBigImg.style = `width: ${bigImgWidth}px; height: ${bigImgHeight}px; left: ${left}px; top: ${top}px; position: fixed; z-index: 2;`;
+		window.dispatchEvent(onImageBigEvent);
 	}
 
 	//Обрабатываем клики на стрелочки - листалки.
